@@ -148,6 +148,9 @@ SETENCIA: DECLARACION_1 Tok_pyc{$$=$1}
 
 DECLARACION_1:Tok_tipo ID_LIST  {$$= new AST_Node("DECLARACION","DECLARACION",this._$.first_line,@1.first_column); $$.addChilds($1)};
 
+ASIGNACION: Tok_ID Tok_asigna1 EXP {$$=new AST_Node("ASIGNACION","ASIGNACION",this._$.first_line,@1.last_column); 
+                                            $$.addChilds(new AST_Node("id",$1,this._$.first_line,@1.last_column),$3);}; 
+
 ID_LIST: ID_LIST Tok_coma Tok_ID {$1.addChilds(new AST_Node("ID",$3,this._$.first_line,@3.first_column)); $$=$1;}
         | Tok_ID {$$= new AST_Node("ID_LIST","ID_LIST"); $$.addChilds(new AST_Node("ID",$1,this._$.first_line,@1.first_column))};
 
@@ -163,6 +166,8 @@ WHILE: Tok_while Tok_par1 EXP Tok_par2 BLOQUE{$$=new AST_Node("WHILE","WHILE",th
 DO_WHILE: Tok_do BLOQUE Tok_while Tok_par1 EXP Tok_par2 {$$=new AST_Node("DO_WHILE","DO_WHILE",this._$.first_line,@1.last_column);$$.addChilds($2,$5)};
 
 DO_UNTIL: Tok_do BLOQUE Tok_until Tok_par1 EXP Tok_par2 {$$=new AST_Node("DO_UNTIL","DO_UNTIL",this._$.first_line,@1.last_column);$$.addChilds($2,$5)};
+
+FOR: Tok_for Tok_par1 EXP Tok_par2
 
 PRINT: Tok_print Tok_par1 EXP Tok_par2 Tok_pyc {$$= new AST_Node("PRINT","PRINT",this._$.first_line,@1.last_column); $$.addChilds($3);};
         |Tok_print Tok_par1 EXP Tok_par2 Tok_pyc {$$= new AST_Node("PRINT","PRINT",this._$.first_line,@1.last_column); $$.addChilds($3);};
