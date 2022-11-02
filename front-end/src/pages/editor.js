@@ -5,13 +5,34 @@ import { Header } from "../components/header";
 
 
 export function Editor() {
-    const [code, setCode] = useState(`Println("Hola mundo :-)")`);
+    const [code, setCode] = useState("");
 
+    async function submitHandler(){
+        const reqOps = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({code:code})
+        };
+        try {
+            const res = await fetch(`http://localhost:5000/run`, reqOps);
+            if(!res.ok){
+                const message = `An error has occured: ${res.status} - ${res.statusText}`;
+                alert(message);
+            }
+            const data = await res.json();
+            console.log(data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <div>
-            <Header editor={true} ></Header>
+            <Header></Header>
             <div className="container mt-3">
+                <button className="btn btn-success mb-2" onClick={submitHandler}>
+                    Ejecutar Código
+                </button>
                 <CodeEditor
                     value={code}
                     language="js"

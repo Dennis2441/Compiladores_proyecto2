@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export function Header({editor}){
+export function Header(){
     return(
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark p-3" aria-label="Eighth navbar example">
             <div className="container">
@@ -33,12 +33,6 @@ export function Header({editor}){
                         </li>
                     </ul>
                 </div>
-                {
-                    editor && 
-                    <button className="btn btn-success">
-                        Ejecutar Código
-                    </button>
-                }
             </div>
         </nav>
     );
