@@ -38,7 +38,32 @@ export class Relational extends Node {
         }
 
         if (this.Operator === '<') {
-            if (this.leftOperator.type.type === types.NUMERIC && this.rightOperator.type.type === types.NUMERIC) {
+            //CHAR < CHAR
+            if (this.leftOperator.type.type === types.CHAR && this.rightOperator.type.type === types.CHAR) {
+                this.type = new Type(types.BOOLEAN);
+                return LeftResult.charCodeAt(0) < RightResult.charCodeAt(0);
+            //INT < CHAR || CHAR < INT 
+            }else if (this.leftOperator.type.type === types.INT && this.rightOperator.type.type === types.CHAR ||
+                      this.leftOperator.type.type === types.CHAR && this.rightOperator.type.type === types.INT) {
+                this.type = new Type(types.BOOLEAN);
+                if(typeof LeftResult === 'string'){
+                    return LeftResult.charCodeAt(0) < Number(RightResult);
+                }else{
+                    return Number(LeftResult) < RightResult.charCodeAt(0);
+                }
+            //DOUBLE < CHAR || CHAR < DOUBLE 
+            }else if (this.leftOperator.type.type === types.DOUBLE && this.rightOperator.type.type === types.CHAR ||
+                      this.leftOperator.type.type === types.CHAR && this.rightOperator.type.type === types.DOUBLE) {
+                this.type = new Type(types.BOOLEAN);
+                if(typeof LeftResult === 'string'){
+                    return LeftResult.charCodeAt(0) < Number(RightResult);
+                }else{
+                    return Number(LeftResult) < RightResult.charCodeAt(0);
+                }
+            //INT < CHAR || CHAR < INT 
+            }else if ((this.leftOperator.type.type === types.INT || this.rightOperator.type.type === types.DOUBLE) &&
+                      (this.leftOperator.type.type === types.DOUBLE || this.rightOperator.type.type === types.DOUBLE)) {
+                this.type = new Type(types.BOOLEAN);
                 return LeftResult < RightResult;
             } else {
                 const error = new Exception('Semantico',
@@ -49,43 +74,123 @@ export class Relational extends Node {
                 return error;
             }
         } else if (this.Operator === '>') {
-            if (this.leftOperator.type.type === types.NUMERIC && this.rightOperator.type.type === types.NUMERIC) {
+            //CHAR < CHAR
+            if (this.leftOperator.type.type === types.CHAR && this.rightOperator.type.type === types.CHAR) {
+                this.type = new Type(types.BOOLEAN);
+                return LeftResult.charCodeAt(0) > RightResult.charCodeAt(0);
+            //INT < CHAR || CHAR < INT 
+            }else if (this.leftOperator.type.type === types.INT && this.rightOperator.type.type === types.CHAR ||
+                      this.leftOperator.type.type === types.CHAR && this.rightOperator.type.type === types.INT) {
+                this.type = new Type(types.BOOLEAN);
+                if(typeof LeftResult === 'string'){
+                    return LeftResult.charCodeAt(0) > Number(RightResult);
+                }else{
+                    return Number(LeftResult) > RightResult.charCodeAt(0);
+                }
+            //DOUBLE < CHAR || CHAR < DOUBLE 
+            }else if (this.leftOperator.type.type === types.DOUBLE && this.rightOperator.type.type === types.CHAR ||
+                      this.leftOperator.type.type === types.CHAR && this.rightOperator.type.type === types.DOUBLE) {
+                this.type = new Type(types.BOOLEAN);
+                if(typeof LeftResult === 'string'){
+                    return LeftResult.charCodeAt(0) > Number(RightResult);
+                }else{
+                    return Number(LeftResult) > RightResult.charCodeAt(0);
+                }
+            //INT < CHAR || CHAR < INT 
+            }else if ((this.leftOperator.type.type === types.INT || this.rightOperator.type.type === types.DOUBLE) &&
+                      (this.leftOperator.type.type === types.DOUBLE || this.rightOperator.type.type === types.DOUBLE)) {
+                this.type = new Type(types.BOOLEAN);
                 return LeftResult > RightResult;
             } else {
                 const error = new Exception('Semantico',
-                    `Error de tipos en MAYOR QUE se esta tratando de operar ${this.leftOperator.type.type} y ${this.rightOperator.type.type}`,
+                    `Error de tipos en MENOR QUE se esta tratando de operar ${this.leftOperator.type.type} y ${this.rightOperator.type.type}`,
                     this.line, this.column);
                 tree.excepciones.push(error);
                 tree.console.push(error.toString());
                 return error;
             }
         } else if (this.Operator === '>=') {
-            if (this.leftOperator.type.type === types.NUMERIC && this.rightOperator.type.type === types.NUMERIC) {
+            //CHAR < CHAR
+            if (this.leftOperator.type.type === types.CHAR && this.rightOperator.type.type === types.CHAR) {
+                this.type = new Type(types.BOOLEAN);
+                return LeftResult.charCodeAt(0) >= RightResult.charCodeAt(0);
+            //INT < CHAR || CHAR < INT 
+            }else if (this.leftOperator.type.type === types.INT && this.rightOperator.type.type === types.CHAR ||
+                      this.leftOperator.type.type === types.CHAR && this.rightOperator.type.type === types.INT) {
+                this.type = new Type(types.BOOLEAN);
+                if(typeof LeftResult === 'string'){
+                    return LeftResult.charCodeAt(0) >= Number(RightResult);
+                }else{
+                    return Number(LeftResult) >= RightResult.charCodeAt(0);
+                }
+            //DOUBLE < CHAR || CHAR < DOUBLE 
+            }else if (this.leftOperator.type.type === types.DOUBLE && this.rightOperator.type.type === types.CHAR ||
+                      this.leftOperator.type.type === types.CHAR && this.rightOperator.type.type === types.DOUBLE) {
+                this.type = new Type(types.BOOLEAN);
+                if(typeof LeftResult === 'string'){
+                    return LeftResult.charCodeAt(0) >= Number(RightResult);
+                }else{
+                    return Number(LeftResult) >= RightResult.charCodeAt(0);
+                }
+            //INT < CHAR || CHAR < INT 
+            }else if ((this.leftOperator.type.type === types.INT || this.rightOperator.type.type === types.DOUBLE) &&
+                      (this.leftOperator.type.type === types.DOUBLE || this.rightOperator.type.type === types.DOUBLE)) {
+                this.type = new Type(types.BOOLEAN);
                 return LeftResult >= RightResult;
             } else {
                 const error = new Exception('Semantico',
-                    `Error de tipos en MAYOR IGUAL se esta tratando de operar ${this.leftOperator.type.type} y ${this.rightOperator.type.type}`,
+                    `Error de tipos en MENOR QUE se esta tratando de operar ${this.leftOperator.type.type} y ${this.rightOperator.type.type}`,
                     this.line, this.column);
                 tree.excepciones.push(error);
                 tree.console.push(error.toString());
                 return error;
             }
         } else if (this.Operator === '<=') {
-            if (this.leftOperator.type.type === types.NUMERIC && this.rightOperator.type.type === types.NUMERIC) {
+            //CHAR < CHAR
+            if (this.leftOperator.type.type === types.CHAR && this.rightOperator.type.type === types.CHAR) {
+                this.type = new Type(types.BOOLEAN);
+                return LeftResult.charCodeAt(0) <= RightResult.charCodeAt(0);
+            //INT < CHAR || CHAR < INT 
+            }else if (this.leftOperator.type.type === types.INT && this.rightOperator.type.type === types.CHAR ||
+                      this.leftOperator.type.type === types.CHAR && this.rightOperator.type.type === types.INT) {
+                this.type = new Type(types.BOOLEAN);
+                if(typeof LeftResult === 'string'){
+                    return LeftResult.charCodeAt(0) <= Number(RightResult);
+                }else{
+                    return Number(LeftResult) <= RightResult.charCodeAt(0);
+                }
+            //DOUBLE < CHAR || CHAR < DOUBLE 
+            }else if (this.leftOperator.type.type === types.DOUBLE && this.rightOperator.type.type === types.CHAR ||
+                      this.leftOperator.type.type === types.CHAR && this.rightOperator.type.type === types.DOUBLE) {
+                this.type = new Type(types.BOOLEAN);
+                if(typeof LeftResult === 'string'){
+                    return LeftResult.charCodeAt(0) <= Number(RightResult);
+                }else{
+                    return Number(LeftResult) <= RightResult.charCodeAt(0);
+                }
+            //INT < CHAR || CHAR < INT 
+            }else if ((this.leftOperator.type.type === types.INT || this.rightOperator.type.type === types.DOUBLE) &&
+                      (this.leftOperator.type.type === types.DOUBLE || this.rightOperator.type.type === types.DOUBLE)) {
+                this.type = new Type(types.BOOLEAN);
                 return LeftResult <= RightResult;
             } else {
                 const error = new Exception('Semantico',
-                    `Error de tipos en MENOR IGUAL se esta tratando de operar ${this.leftOperator.type.type} y ${this.rightOperator.type.type}`,
+                    `Error de tipos en MENOR QUE se esta tratando de operar ${this.leftOperator.type.type} y ${this.rightOperator.type.type}`,
                     this.line, this.column);
                 tree.excepciones.push(error);
                 tree.console.push(error.toString());
                 return error;
             }
         } else if (this.Operator === '!=') {
-            if (this.leftOperator.type.type === types.NUMERIC && this.rightOperator.type.type === types.NUMERIC) {
-                return LeftResult != RightResult;
-            } else if (this.leftOperator.type.type === types.STRING && this.rightOperator.type.type === types.STRING) {
-                return LeftResult != RightResult;
+            if ((this.leftOperator.type.type === types.INT || this.rightOperator.type.type === types.DOUBLE) &&
+                (this.leftOperator.type.type === types.DOUBLE || this.rightOperator.type.type === types.DOUBLE)) {
+                return LeftResult !== RightResult;
+            }if (this.leftOperator.type.type === types.BOOLEAN && this.rightOperator.type.type === types.BOOLEAN) {
+                    this.type = new Type(types.BOOLEAN);
+                    return LeftResult !== RightResult;
+            } else if ((this.leftOperator.type.type === types.CHAR || this.rightOperator.type.type === types.STRING) &&
+                        (this.leftOperator.type.type === types.CHAR || this.rightOperator.type.type === types.STRING)) {
+                return LeftResult !== RightResult;
             } else {
                 const error = new Exception('Semantico',
                     `Error de tipos en DIFERENTE QUE se esta tratando de operar ${this.leftOperator.type.type} y ${this.rightOperator.type.type}`,
@@ -95,13 +200,18 @@ export class Relational extends Node {
                 return error;
             }
         } else if (this.Operator === '==') {
-            if (this.leftOperator.type.type === types.NUMERIC && this.rightOperator.type.type === types.NUMERIC) {
-                return LeftResult == RightResult;
-            } else if (this.leftOperator.type.type === types.STRING && this.rightOperator.type.type === types.STRING) {
-                return LeftResult == RightResult;
+            if ((this.leftOperator.type.type === types.INT || this.rightOperator.type.type === types.DOUBLE) &&
+                (this.leftOperator.type.type === types.DOUBLE || this.rightOperator.type.type === types.DOUBLE)) {
+                return LeftResult === RightResult;
+            }if (this.leftOperator.type.type === types.BOOLEAN && this.rightOperator.type.type === types.BOOLEAN) {
+                    this.type = new Type(types.BOOLEAN);
+                    return LeftResult === RightResult;
+            } else if ((this.leftOperator.type.type === types.CHAR || this.rightOperator.type.type === types.STRING) &&
+                        (this.leftOperator.type.type === types.CHAR || this.rightOperator.type.type === types.STRING)) {
+                return LeftResult === RightResult;
             } else {
                 const error = new Exception('Semantico',
-                    `Error de tipos en IGUAL IGUAL se esta tratando de operar ${this.leftOperator.type.type} y ${this.rightOperator.type.type}`,
+                    `Error de tipos en DIFERENTE QUE se esta tratando de operar ${this.leftOperator.type.type} y ${this.rightOperator.type.type}`,
                     this.line, this.column);
                 tree.excepciones.push(error);
                 tree.console.push(error.toString());
