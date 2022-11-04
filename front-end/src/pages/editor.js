@@ -6,24 +6,16 @@ import { Header } from "../components/header";
 
 export function Editor() {
     const [code, setCode] = useState("");
+    const [data, setData] = useState();
 
     async function submitHandler(){
         const reqOps = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({code:code})
+            body: JSON.stringify({entrada:code})
         };
-        try {
-            const res = await fetch(`http://localhost:5000/run`, reqOps);
-            if(!res.ok){
-                const message = `An error has occured: ${res.status} - ${res.statusText}`;
-                alert(message);
-            }
-            const data = await res.json();
-            console.log(data);
-        } catch (error) {
-            console.log(error);
-        }
+        const response = await fetch('http://localhost:5000/analizar', reqOps);
+        const data = await response.json().then( data => console.log(data));
     }
 
     return (
