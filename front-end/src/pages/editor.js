@@ -1,5 +1,4 @@
 import React from "react";
-import CodeEditor from '@uiw/react-textarea-code-editor';
 import { useEffect, useState } from "react";
 import { Header } from "../components/header";
 
@@ -7,6 +6,12 @@ import { Header } from "../components/header";
 export function Editor() {
     const [code, setCode] = useState("");
     const [consola, setConsola] = useState("");
+
+
+    const changeHandler = (evt) => {
+        setCode(evt.target.value);
+    }
+
     async function submitHandler(){
         const reqOps = {
             method: 'POST',
@@ -20,24 +25,12 @@ export function Editor() {
     return (
         <div>
             <Header></Header>
-            <div className="container mt-3">
+            <div className="container mt-3 mb-3">
                 <button className="btn btn-success mb-2" onClick={submitHandler}>
                     Ejecutar Código
                 </button>
-                <CodeEditor
-                    value={code}
-                    language="js"
-                    placeholder="Ingresa Código MFM Script"
-                    onChange={(evn) => setCode(evn.target.value)}
-                    padding={15}
-                    style={{
-                        fontSize: 15,
-                        backgroundColor: "rgb(33,37,41)",
-                        fontFamily: 'ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace',
-                        height:"50vh"
-                    }}
-                ></CodeEditor>
-                <textarea className="form-control mt-3" placeholder="Consola" value={consola}></textarea>
+                <textarea className="form-control mt-3 bg-dark text-light" style={{minHeight:"300px"}} placeholder="//Ingresa tu código" onChange={changeHandler} value={code}></textarea>
+                <textarea className="form-control mt-3 bg-dark text-secondary" style={{backgroundColor:"black", minHeight:"150px"}} placeholder="Consola" value={consola}></textarea>
             </div>
         </div>
     );

@@ -17,18 +17,18 @@
 %}
 %lex
 %options case-insensitive
+decimal [0-9]+"."[0-9]+
 entero [0-9]+
-decimal {entero}("."{entero})?
 stringliteral (\"[^"]*\")
 identifier ([a-zA-Z_])[a-zA-Z0-9_]*
 char \'(\\.|.)\'
 %%
 
 \s+                   /* skip whitespace */
-{entero}              return 'INT_LITERAL'
 {decimal}             return 'DOUBLE_LITERAL'
+{entero}              return 'INT_LITERAL'
 {stringliteral}       return 'STRING_LITERAL'
-{stringliteral}       return 'CHAR_LITERAL'
+{char}                return 'CHAR_LITERAL'
 "*"                   return '*'
 "/"                   return '/'
 ";"                   return ';'
@@ -76,17 +76,6 @@ char \'(\\.|.)\'
 
 /lex
 
-// precedence = [    
-//     ('left', 'Or'),
-//     ('left', 'And'),        
-//     ('right', 'Not'),    
-//     ('left', 'Equal', 'Diff'),
-//     ('left', 'Less','Less_eq', 'Great', 'Great_eq'),
-//     ('left', 'Plus', 'Minus'),
-//     ('left', 'Mult', 'Divide', 'Module'),
-//     ('right', 'Negative'),
-//     ('nonassoc', 'Power'),    
-// ]
 %left 'else'
 %left '||'
 %left '&&'
@@ -120,6 +109,7 @@ INSTRUCCION : PRINT {$$ = $1;}
 
 
 DECLARACION : TIPO identifier '=' EXPRESION ';' {$$ = new Declaracion($1, $2, $4, _$.first_line, _$.first_column);}
+            | TIPO identifier ';' {$$ = new Declaracion($1, $2, null, _$.first_line, _$.first_column);}
             ;
 
 ASIGNACION : identifier '=' EXPRESION ';' {$$ = new Asignacion($1, $3, _$.first_line, _$.first_column);}
@@ -133,6 +123,7 @@ TIPO : 'int' {$$ = new Type(types.INT);}
      ;
 
 PRINT : 'print' '(' EXPRESION ')' ';' { $$ = new Print($3, _$.first_line, _$.first_column);}
+      | 'println' '(' EXPRESION ')' ';' { $$ = new Print($3, _$.first_line, _$.first_column, true);}
       ;
 
 IF : 'if' CONDICION BLOQUE_INSTRUCCIONES {$$ = new If($2, $3, [], _$.first_line, _$.first_column);}
@@ -168,10 +159,10 @@ EXPRESION : '-' EXPRESION %prec UMENOS	    { $$ = new Arithmetic($2, null, '-', 
           | EXPRESION '!=' EXPRESION	    { $$ = new Relational($1, $3, '!=', _$.first_line, _$.first_column); }
           | EXPRESION '||' EXPRESION	    { $$ = new Logic($1, $3, '&&', _$.first_line, _$.first_column); }
           | EXPRESION '&&' EXPRESION	    { $$ = new Logic($1, $3, '||', _$.first_line, _$.first_column); }
-          | 'INT_LITERAL'				    { $$ = new Primitive(new Type(types.INT), Number($1), _$.first_line, _$.first_column); }
-          | 'DOUBLE_LITERAL'				    { $$ = new Primitive(new Type(types.DOUBLE), Number($1), _$.first_line, _$.first_column); }
-          | STRING_LITERAL			    { $$ = new Primitive(new Type(types.STRING), $1.replace(/\"/g,""), _$.first_line, _$.first_column); }
-          | CHAR_LITERAL			    { $$ = new Primitive(new Type(types.CHAR), $1.replace(/\'/g,""), _$.first_line, _$.first_column); }
+          | 'INT_LITERAL'			    { $$ = new Primitive(new Type(types.INT), Number($1), _$.first_line, _$.first_column); }
+          | 'DOUBLE_LITERAL'			    { $$ = new Primitive(new Type(types.DOUBLE), Number($1), _$.first_line, _$.first_column); }
+          | 'STRING_LITERAL'			    { $$ = new Primitive(new Type(types.STRING), $1.replace(/\"/g,""), _$.first_line, _$.first_column); }
+          | 'CHAR_LITERAL'			    { $$ = new Primitive(new Type(types.CHAR), $1.replace(/\'/g,""), _$.first_line, _$.first_column); }
           | 'true'				    { $$ = new Primitive(new Type(types.BOOLEAN), true, _$.first_line, _$.first_column); }
           | 'false'				    { $$ = new Primitive(new Type(types.BOOLEAN), false, _$.first_line, _$.first_column); }
           | identifier			          { $$ = new Identificador($1, _$.first_line, _$.first_column); }
