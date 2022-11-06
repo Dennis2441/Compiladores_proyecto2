@@ -4,17 +4,9 @@ import { Tree } from "../Simbols/Tree";
 import { Simbol } from "../Simbols/Simbol";
 import { Exception } from "../utils/Exception";
 
-/**
- * @class Nodo expresion identificador que obtendra el valor de una variable
- */
 export class Identificador extends Node {
     identifier: String;
-    /**
-     * @constructor Retorna el objeto identificador creado
-     * @param identifier nombre de la variable
-     * @param line Linea del identificador
-     * @param column Columna del identificador
-     */
+
     constructor(identifier: String, line: Number, column: Number) {
         // tipo null porque aun no se el tipo
         super(null, line, column);

@@ -6,20 +6,11 @@ import { types } from "../utils/Type";
 import { Continue } from "../Expresiones/Continue";
 import { Break } from "../Expresiones/Break";
 
-/**
- * @class Ejecuta una serie de instrucciones en caso la condicion sea verdadera sino ejecuta las instrucciones falsas
- */
+
 export class While extends Node {
     condition: Node;
     List: Array<Node>;
 
-    /**
-     * @constructor Crea el nodo instruccion para la sentencia IF
-     * @param condition Condicion que debe ser tipo boolean
-     * @param List Lista de instrucciones a ejecutar mientras la condicion sea verdadera
-     * @param line Linea de la sentencia while
-     * @param column Columna de la sentencia while
-     */
     constructor(condition: Node, List: Array<Node>, line: Number, column: Number) {
         super(null, line, column);
         this.condition = condition;

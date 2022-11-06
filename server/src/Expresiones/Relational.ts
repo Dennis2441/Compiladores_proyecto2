@@ -62,7 +62,7 @@ export class Relational extends Node {
                 }
             //INT < CHAR || CHAR < INT 
             }else if ((this.leftOperator.type.type === types.INT || this.rightOperator.type.type === types.DOUBLE) &&
-                      (this.leftOperator.type.type === types.DOUBLE || this.rightOperator.type.type === types.DOUBLE)) {
+                      (this.leftOperator.type.type === types.DOUBLE || this.rightOperator.type.type === types.INT)) {
                 this.type = new Type(types.BOOLEAN);
                 return LeftResult < RightResult;
             } else {
@@ -98,7 +98,7 @@ export class Relational extends Node {
                 }
             //INT < CHAR || CHAR < INT 
             }else if ((this.leftOperator.type.type === types.INT || this.rightOperator.type.type === types.DOUBLE) &&
-                      (this.leftOperator.type.type === types.DOUBLE || this.rightOperator.type.type === types.DOUBLE)) {
+                      (this.leftOperator.type.type === types.DOUBLE || this.rightOperator.type.type === types.INT)) {
                 this.type = new Type(types.BOOLEAN);
                 return LeftResult > RightResult;
             } else {
@@ -134,7 +134,7 @@ export class Relational extends Node {
                 }
             //INT < CHAR || CHAR < INT 
             }else if ((this.leftOperator.type.type === types.INT || this.rightOperator.type.type === types.DOUBLE) &&
-                      (this.leftOperator.type.type === types.DOUBLE || this.rightOperator.type.type === types.DOUBLE)) {
+                      (this.leftOperator.type.type === types.DOUBLE || this.rightOperator.type.type === types.INT)) {
                 this.type = new Type(types.BOOLEAN);
                 return LeftResult >= RightResult;
             } else {
@@ -170,7 +170,7 @@ export class Relational extends Node {
                 }
             //INT < CHAR || CHAR < INT 
             }else if ((this.leftOperator.type.type === types.INT || this.rightOperator.type.type === types.DOUBLE) &&
-                      (this.leftOperator.type.type === types.DOUBLE || this.rightOperator.type.type === types.DOUBLE)) {
+                      (this.leftOperator.type.type === types.DOUBLE || this.rightOperator.type.type === types.INT)) {
                 this.type = new Type(types.BOOLEAN);
                 return LeftResult <= RightResult;
             } else {
@@ -183,13 +183,15 @@ export class Relational extends Node {
             }
         } else if (this.Operator === '!=') {
             if ((this.leftOperator.type.type === types.INT || this.rightOperator.type.type === types.DOUBLE) &&
-                (this.leftOperator.type.type === types.DOUBLE || this.rightOperator.type.type === types.DOUBLE)) {
+                (this.leftOperator.type.type === types.DOUBLE || this.rightOperator.type.type === types.INT)) {
+                this.type = new Type(types.BOOLEAN);
                 return LeftResult !== RightResult;
             }if (this.leftOperator.type.type === types.BOOLEAN && this.rightOperator.type.type === types.BOOLEAN) {
                     this.type = new Type(types.BOOLEAN);
                     return LeftResult !== RightResult;
             } else if ((this.leftOperator.type.type === types.CHAR || this.rightOperator.type.type === types.STRING) &&
-                        (this.leftOperator.type.type === types.CHAR || this.rightOperator.type.type === types.STRING)) {
+                        (this.leftOperator.type.type === types.STRING || this.rightOperator.type.type === types.CHAR)) {
+                this.type = new Type(types.BOOLEAN);
                 return LeftResult !== RightResult;
             } else {
                 const error = new Exception('Semantico',
@@ -201,13 +203,15 @@ export class Relational extends Node {
             }
         } else if (this.Operator === '==') {
             if ((this.leftOperator.type.type === types.INT || this.rightOperator.type.type === types.DOUBLE) &&
-                (this.leftOperator.type.type === types.DOUBLE || this.rightOperator.type.type === types.DOUBLE)) {
+                (this.leftOperator.type.type === types.DOUBLE || this.rightOperator.type.type === types.INT)) {
+                this.type = new Type(types.BOOLEAN);
                 return LeftResult === RightResult;
             }if (this.leftOperator.type.type === types.BOOLEAN && this.rightOperator.type.type === types.BOOLEAN) {
-                    this.type = new Type(types.BOOLEAN);
-                    return LeftResult === RightResult;
+                this.type = new Type(types.BOOLEAN);
+                return LeftResult === RightResult;
             } else if ((this.leftOperator.type.type === types.CHAR || this.rightOperator.type.type === types.STRING) &&
-                        (this.leftOperator.type.type === types.CHAR || this.rightOperator.type.type === types.STRING)) {
+                        (this.leftOperator.type.type === types.STRING || this.rightOperator.type.type === types.CHAR)) {
+                this.type = new Type(types.BOOLEAN);
                 return LeftResult === RightResult;
             } else {
                 const error = new Exception('Semantico',
