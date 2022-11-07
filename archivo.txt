@@ -1,0 +1,19 @@
+int i = 0;
+
+while(i < 10){
+    int j = 0;
+    while(j < 10){
+        print("#");
+        j = j + 1;
+    }
+    println("-");
+    i = i + 1;
+}
+
+
+
+int i = 0;
+while( i < 10 ) {
+    println("hola");
+    i = i +1;
+}

@@ -21,12 +21,14 @@ export class Relational extends Node {
     }
 
     execute(table: Table, tree: Tree) {
-        
+        console.log(this);
         const LeftResult = this.leftOperator.execute(table, tree);
+        console.log(LeftResult);
         if (LeftResult instanceof Exception) {
             return LeftResult;
         }
         const RightResult = this.rightOperator.execute(table, tree);
+        console.log(RightResult);
         if (RightResult instanceof Exception) {
             return RightResult;
         }
@@ -40,8 +42,8 @@ export class Relational extends Node {
                 this.type = new Type(types.BOOLEAN);
                 return LeftResult.charCodeAt(0) < RightResult.charCodeAt(0);
             //INT < CHAR || CHAR < INT 
-            }else if ((this.leftOperator.type.type === types.INT || this.leftOperator.type.type === types.CHAR) &&
-                      (this.rightOperator.type.type === types.INT || this.rightOperator.type.type === types.CHAR)) {
+            }else if ((this.leftOperator.type.type === types.INT && this.rightOperator.type.type === types.CHAR) ||
+                      (this.rightOperator.type.type === types.INT && this.leftOperator.type.type === types.CHAR)) {
                 this.type = new Type(types.BOOLEAN);
                 if(typeof LeftResult === 'string'){
                     return LeftResult.charCodeAt(0) < Number(RightResult);
@@ -49,8 +51,8 @@ export class Relational extends Node {
                     return Number(LeftResult) < RightResult.charCodeAt(0);
                 }
             //DOUBLE < CHAR || CHAR < DOUBLE 
-            }else if ((this.leftOperator.type.type === types.DOUBLE || this.leftOperator.type.type === types.CHAR) &&
-                       (this.rightOperator.type.type === types.DOUBLE || this.rightOperator.type.type === types.CHAR)) {
+            }else if ((this.leftOperator.type.type === types.DOUBLE && this.rightOperator.type.type === types.CHAR) ||
+                       (this.rightOperator.type.type === types.DOUBLE && this.leftOperator.type.type === types.CHAR)) {
                 this.type = new Type(types.BOOLEAN);
                 if(typeof LeftResult === 'string'){
                     return LeftResult.charCodeAt(0) < Number(RightResult);
@@ -79,8 +81,8 @@ export class Relational extends Node {
                 this.type = new Type(types.BOOLEAN);
                 return LeftResult.charCodeAt(0) > RightResult.charCodeAt(0);
             //INT > CHAR || CHAR > INT 
-            }else if ((this.leftOperator.type.type === types.INT || this.leftOperator.type.type === types.CHAR) &&
-                      (this.rightOperator.type.type === types.INT || this.rightOperator.type.type === types.CHAR)) {
+            }else if ((this.leftOperator.type.type === types.INT && this.rightOperator.type.type === types.CHAR) ||
+                      (this.rightOperator.type.type === types.INT && this.leftOperator.type.type === types.CHAR)) {
                 this.type = new Type(types.BOOLEAN);
                 if(typeof LeftResult === 'string'){
                     return LeftResult.charCodeAt(0) > Number(RightResult);
@@ -88,8 +90,8 @@ export class Relational extends Node {
                     return Number(LeftResult) > RightResult.charCodeAt(0);
                 }
             //DOUBLE > CHAR || CHAR > DOUBLE 
-            }else if ((this.leftOperator.type.type === types.DOUBLE || this.leftOperator.type.type === types.CHAR) &&
-                       (this.rightOperator.type.type === types.DOUBLE || this.rightOperator.type.type === types.CHAR)) {
+            }else if ((this.leftOperator.type.type === types.DOUBLE && this.rightOperator.type.type === types.CHAR) ||
+                       (this.rightOperator.type.type === types.DOUBLE && this.leftOperator.type.type === types.CHAR)) {
                 this.type = new Type(types.BOOLEAN);
                 if(typeof LeftResult === 'string'){
                     return LeftResult.charCodeAt(0) > Number(RightResult);
@@ -118,8 +120,8 @@ export class Relational extends Node {
                 this.type = new Type(types.BOOLEAN);
                 return LeftResult.charCodeAt(0) >= RightResult.charCodeAt(0);
             //INT >= CHAR || CHAR >= INT 
-            }else if ((this.leftOperator.type.type === types.INT || this.leftOperator.type.type === types.CHAR) &&
-                      (this.rightOperator.type.type === types.INT || this.rightOperator.type.type === types.CHAR)) {
+            }else if ((this.leftOperator.type.type === types.INT && this.rightOperator.type.type === types.CHAR) ||
+                      (this.rightOperator.type.type === types.INT && this.leftOperator.type.type === types.CHAR)) {
                 this.type = new Type(types.BOOLEAN);
                 if(typeof LeftResult === 'string'){
                     return LeftResult.charCodeAt(0) >= Number(RightResult);
@@ -127,8 +129,8 @@ export class Relational extends Node {
                     return Number(LeftResult) >= RightResult.charCodeAt(0);
                 }
             //DOUBLE >= CHAR || CHAR >= DOUBLE 
-            }else if ((this.leftOperator.type.type === types.DOUBLE || this.leftOperator.type.type === types.CHAR) &&
-                       (this.rightOperator.type.type === types.DOUBLE || this.rightOperator.type.type === types.CHAR)) {
+            }else if ((this.leftOperator.type.type === types.DOUBLE && this.rightOperator.type.type === types.CHAR) ||
+                       (this.rightOperator.type.type === types.DOUBLE && this.leftOperator.type.type === types.CHAR)) {
                 this.type = new Type(types.BOOLEAN);
                 if(typeof LeftResult === 'string'){
                     return LeftResult.charCodeAt(0) >= Number(RightResult);
@@ -157,8 +159,8 @@ export class Relational extends Node {
                 this.type = new Type(types.BOOLEAN);
                 return LeftResult.charCodeAt(0) <= RightResult.charCodeAt(0);
             //INT <= CHAR || CHAR <= INT 
-            }else if ((this.leftOperator.type.type === types.INT || this.leftOperator.type.type === types.CHAR) &&
-                      (this.rightOperator.type.type === types.INT || this.rightOperator.type.type === types.CHAR)) {
+            }else if ((this.leftOperator.type.type === types.INT && this.rightOperator.type.type === types.CHAR) ||
+                      (this.rightOperator.type.type === types.INT && this.leftOperator.type.type === types.CHAR)) {
                 this.type = new Type(types.BOOLEAN);
                 if(typeof LeftResult === 'string'){
                     return LeftResult.charCodeAt(0) <= Number(RightResult);
@@ -166,8 +168,8 @@ export class Relational extends Node {
                     return Number(LeftResult) <= RightResult.charCodeAt(0);
                 }
             //DOUBLE <= CHAR || CHAR <= DOUBLE 
-            }else if ((this.leftOperator.type.type === types.DOUBLE || this.leftOperator.type.type === types.CHAR) &&
-                       (this.rightOperator.type.type === types.DOUBLE || this.rightOperator.type.type === types.CHAR)) {
+            }else if ((this.leftOperator.type.type === types.DOUBLE && this.rightOperator.type.type === types.CHAR) ||
+                       (this.rightOperator.type.type === types.DOUBLE && this.leftOperator.type.type === types.CHAR)) {
                 this.type = new Type(types.BOOLEAN);
                 if(typeof LeftResult === 'string'){
                     return LeftResult.charCodeAt(0) <= Number(RightResult);
@@ -192,8 +194,8 @@ export class Relational extends Node {
         //------------------------------------------------------------------------------------------------------------------------
         } else if (this.Operator === '!=') {
             //INT != DOUBLE || DOUBLE != INT
-            if ((this.leftOperator.type.type == types.INT || this.leftOperator.type.type == types.DOUBLE) &&
-                (this.rightOperator.type.type == types.INT || this.rightOperator.type.type == types.DOUBLE)) {
+            if ((this.leftOperator.type.type == types.INT || this.rightOperator.type.type == types.DOUBLE) &&
+                (this.rightOperator.type.type == types.INT || this.leftOperator.type.type == types.DOUBLE)) {
                 this.type = new Type(types.BOOLEAN);
                 return LeftResult != RightResult;
             
@@ -203,8 +205,8 @@ export class Relational extends Node {
                     return LeftResult != RightResult;
             
             //CHAR != STRING || STRING != CHAR
-            } else if ((this.leftOperator.type.type === types.CHAR || this.leftOperator.type.type === types.STRING) &&
-                       (this.rightOperator.type.type === types.CHAR || this.rightOperator.type.type === types.STRING)) {
+            } else if ((this.leftOperator.type.type === types.CHAR && this.rightOperator.type.type === types.STRING) ||
+                       (this.rightOperator.type.type === types.CHAR && this.leftOperator.type.type === types.STRING)) {
                 this.type = new Type(types.BOOLEAN);
                 return LeftResult != RightResult;
             } else {
@@ -220,8 +222,8 @@ export class Relational extends Node {
         //------------------------------------------------------------------------------------------------------------------------
         } else if (this.Operator === '==') {
             //INT != DOUBLE || DOUBLE != INT
-            if ((this.leftOperator.type.type == types.INT || this.leftOperator.type.type == types.DOUBLE) &&
-                (this.rightOperator.type.type == types.INT || this.rightOperator.type.type == types.DOUBLE)) {
+            if ((this.leftOperator.type.type == types.INT || this.rightOperator.type.type == types.DOUBLE) &&
+                (this.rightOperator.type.type == types.INT || this.leftOperator.type.type == types.DOUBLE)) {
                 this.type = new Type(types.BOOLEAN);
                 return LeftResult == RightResult;
             
@@ -231,8 +233,8 @@ export class Relational extends Node {
                     return LeftResult == RightResult;
             
             //CHAR != STRING || STRING != CHAR
-            } else if ((this.leftOperator.type.type === types.CHAR || this.leftOperator.type.type === types.STRING) &&
-                       (this.rightOperator.type.type === types.CHAR || this.rightOperator.type.type === types.STRING)) {
+            } else if ((this.leftOperator.type.type === types.CHAR && this.rightOperator.type.type === types.STRING) ||
+                       (this.rightOperator.type.type === types.CHAR && this.leftOperator.type.type === types.STRING)) {
                 this.type = new Type(types.BOOLEAN);
                 return LeftResult == RightResult;
             } else {
