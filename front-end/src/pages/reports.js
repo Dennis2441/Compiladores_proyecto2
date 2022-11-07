@@ -26,7 +26,7 @@ export function Reports(){
         });
     }, []);
 
-    console.log(errors);
+    console.log(syms);
 
     return(
         <div className="container">
@@ -63,6 +63,33 @@ export function Reports(){
                                             <td>{obj.description}</td>
                                             <td>{obj.line}</td>
                                             <td>{obj.column}</td>
+                                        </tr>
+                                    )
+                                })
+                            }
+                        </tbody>
+                    </table>
+                }
+                {
+                    tabIndex === 2 && 
+                    <table className="table table-hover table-dark">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Tipo</th>
+                                <th scope="col">Valor</th>
+                                <th scope="col">Ámbitp</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                syms.map((obj, index) => {
+                                    return (
+                                        <tr key={index}>
+                                            <th>{obj.id}</th>
+                                            <td>{obj.type}</td>
+                                            <td>{obj.value}</td>
+                                            <td>{obj.ambit}</td>
                                         </tr>
                                     )
                                 })

@@ -23,7 +23,8 @@ app.post('/analizar', (req, res) => {
   }
   const tree = parser.parse(entrada);
   const tabla = new Table(null);
-
+  errores = [];
+  simbolos = [];
   
   tree.instructions.map((m: any) => {
     const res = m.execute(tabla, tree);
@@ -48,8 +49,6 @@ app.post('/analizar', (req, res) => {
   }
   errores = tree.excepciones;
   simbolos = tabla.getTableArray();
-
-  console.log(output);
   res.setHeader('Content-Type', 'application/json');
   res.json({consola: output});
 });

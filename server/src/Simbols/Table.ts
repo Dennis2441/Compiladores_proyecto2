@@ -36,13 +36,21 @@ export class Table{
     }
 
     getTableArray(){
-        let temp : Array<any>;
-        temp = [];
+        let arr : Array<any>;
+        arr = [];
         let env: Table;
         for(env = this; env != null; env = env.Previous){
-            temp.concat(Array.from(env.Variables.keys()), this.ambito);
+            env.Variables.forEach((obj, key) => {
+                let temp = {
+                    id: obj.identifier,
+                    type: obj.type.type,
+                    value: obj.value,
+                    ambit: env.ambito
+                }; 
+                arr.push(temp);
+            });
         }
-        return temp;
+        return arr;
     }
 
 }
