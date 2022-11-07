@@ -1,3 +1,7 @@
+int as;
+as = (int) "20";
+print(as);
+
 int i = 0;
 
 while(i < 10){
@@ -25,3 +29,9 @@ a = 'a' == "cd" ? 4: 10 ;
 println(a);
 string test2 = a < 5 ? "nada": "hola";
 print(test2);
+
+
+String stringInt = (String) 16;
+String stringDouble = (String) 16.1;
+String stringBoolean = (String) false;
+String stringChar (String) “a”;

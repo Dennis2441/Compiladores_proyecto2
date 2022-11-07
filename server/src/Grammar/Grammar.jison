@@ -73,6 +73,7 @@ char \'(\\.|.)\'
 "print"               return 'print'
 "if"                  return 'if'
 "else"                return 'else'
+"elif"                return 'elif'
 "break"               return 'break'
 "continue"            return 'continue'
 "while"               return 'while'
@@ -122,6 +123,7 @@ DECLARACION : TIPO identifier '=' TERNARIO ';' {$$ = new Declaracion($1, $2, $4,
             ;
 
 ASIGNACION : identifier '=' TERNARIO ';' {$$ = new Asignacion($1, $3, @2.first_line, @2.first_column);}
+           | identifier '=' CASTEO ';' {$$ = new Asignacion($1, $3, @2.first_line, @2.first_column);}
            | identifier '=' EXPRESION ';' {$$ = new Asignacion($1, $3, @1.first_line, @1.first_column);} 
            ;
 
