@@ -6,6 +6,7 @@
     const {Break} = require('../Expresiones/Break');
     const {Logic} = require('../Expresiones/Logic');
     const {Ternario} = require('../Expresiones/Ternario');
+    const {Casteo} = require('../Expresiones/Casteo');
     const {Identificador} = require('../Expresiones/Identificador');
     const {Print} = require('../Instrucciones/Print');
     const {If} = require('../Instrucciones/If');
@@ -116,15 +117,18 @@ INSTRUCCION : PRINT {$$ = $1;}
 
 DECLARACION : TIPO identifier '=' TERNARIO ';' {$$ = new Declaracion($1, $2, $4, @2.first_line, @2.first_column);}
             | TIPO identifier '=' EXPRESION ';' {$$ = new Declaracion($1, $2, $4, @2.first_line, @2.first_column);}
+            | TIPO identifier '=' CASTEO ';' {$$ = new Declaracion($1, $2, $4, @2.first_line, @2.first_column);}
             | TIPO identifier ';' {$$ = new Declaracion($1, $2, null, @2.first_line, @2.first_column);}
             ;
 
-ASIGNACION : identifier '=' EXPRESION ';' {$$ = new Asignacion($1, $3, @1.first_line, @1.first_column);} 
-           | identifier '=' TERNARIO ';' {$$ = new Asignacion($1, $2, $4, @2.first_line, @2.first_column);}
+ASIGNACION : identifier '=' TERNARIO ';' {$$ = new Asignacion($1, $3, @2.first_line, @2.first_column);}
+           | identifier '=' EXPRESION ';' {$$ = new Asignacion($1, $3, @1.first_line, @1.first_column);} 
            ;
 
 TERNARIO : EXPRESION '?' EXPRESION ':' EXPRESION { $$ = new Ternario($1, $3, $5, @1.first_line, @1.first_column);}
          ;
+CASTEO : '(' TIPO ')' EXPRESION { $$ = new Casteo($2, $4, @1.first_line, @1.first_column); }
+       ;
 
 TIPO : 'int' {$$ = new Type(types.INT);}
      | 'string' {$$ = new Type(types.STRING);}

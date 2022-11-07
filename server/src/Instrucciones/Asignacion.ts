@@ -19,6 +19,7 @@ export class Asignacion extends Node {
     }
 
     execute(table: Table, tree: Tree) {
+        console.log(this.value);
         const result = this.value.execute(table, tree);
         if (result instanceof Exception) {
             return result;

@@ -27,7 +27,7 @@ export class Table{
         let env: Table;
         for(env = this; env != null; env = env.Previous){
             for(let key of Array.from( env.Variables.keys()) ) {
-                if(key === identifier){
+                if(key.toLowerCase() === identifier.toLowerCase()){
                     return env.Variables.get(key);
                 }
             }

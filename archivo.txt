@@ -10,7 +10,6 @@ while(i < 10){
     i = i + 1;
 }
 
-
 int i = 0;
 do{
     print(i);
@@ -19,10 +18,10 @@ do{
 }while(i < 10);
 
 
-
 int a = 10;
 string test1 = a > 5 ? "hola": "nada";
-print(test1);
-a = 2;
-string test2 = a > 5 ? "nada": "hola";
-println(test2);
+println(test1);
+a = 'a' == "cd" ? 4: 10 ;
+println(a);
+string test2 = a < 5 ? "nada": "hola";
+print(test2);
