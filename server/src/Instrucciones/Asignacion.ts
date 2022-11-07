@@ -7,20 +7,11 @@ import { Continue } from "../Expresiones/Continue";
 import { Break } from "../Expresiones/Break";
 import { Simbol } from "../Simbols/Simbol";
 
-/**
- * @class Reasigna el valor de una variable existente
- */
+
 export class Asignacion extends Node {
     identifier: String;
     value: Node;
 
-    /**
-     * @constructor Crea el nodo instruccion para la sentencia Asignacion
-     * @param identifier nombre de la variable
-     * @param value valor de la variable
-     * @param line Linea de la sentencia if
-     * @param column Columna de la sentencia if
-     */
     constructor(identifier: String, value: Node, line: Number, column: Number) {
         super(null, line, column);
         this.identifier = identifier;

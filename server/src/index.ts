@@ -13,6 +13,9 @@ app.use(cors());
 app.use(express.urlencoded());
 app.use(express.json());
 
+let errores : Array<any>;
+let simbolos : Array<any>;
+
 app.post('/analizar', (req, res) => {
   const { entrada } = req.body;
   if (!entrada) {
@@ -43,7 +46,9 @@ app.post('/analizar', (req, res) => {
   for(let i = 0; i < tree.console.length; i++){
     output += String(tree.console[i]);
   }
-  console.log(output)
+  errores = tree.excepciones;
+  simbolos = tabla.getTableArray();
+
   let obj = {
     consola: output,
     errores: tree.excepciones
@@ -51,6 +56,15 @@ app.post('/analizar', (req, res) => {
   console.log(obj, tree.console);
   res.setHeader('Content-Type', 'application/json');
   res.json(obj);
+});
+
+app.get('/errores', (req, res) => {
+  console.log(errores);
+  res.json(errores);
+});
+
+app.get('/simbolos', (req, res) => {
+  res.json(simbolos);
 });
 
 app.listen(port, err => {

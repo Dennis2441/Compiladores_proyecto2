@@ -19,6 +19,7 @@ export class While extends Node {
 
     execute(table: Table, tree: Tree) {
         const newtable = new Table(table);
+        newtable.ambito = "WHILE";
         let result: Node;
         do {
             result = this.condition.execute(newtable, tree);

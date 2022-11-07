@@ -204,7 +204,7 @@ case 45:
  this.$ = new Primitive(new Type(types.DOUBLE), Number($$[$0]), _$.first_line, _$.first_column); 
 break;
 case 46:
- this.$ = new Primitive(new Type(types.STRING), $$[$0].replace(/\"/g,""), _$.first_line, _$.first_column); 
+ this.$ = new Primitive(new Type(types.STRING), $$[$0].slice(1, -1), _$.first_line, _$.first_column); 
 break;
 case 47:
  this.$ = new Primitive(new Type(types.CHAR), $$[$0].replace(/\'/g,""), _$.first_line, _$.first_column); 
@@ -741,13 +741,13 @@ case 11:return 37
 break;
 case 12:return 38
 break;
-case 13:return 42
+case 13:return 45
 break;
-case 14:return 43
+case 14:return 44
 break;
-case 15:return 45
+case 15:return 42
 break;
-case 16:return 44
+case 16:return 43
 break;
 case 17:return 46
 break;
@@ -807,7 +807,7 @@ case 44:return 5
 break;
 }
 },
-rules: [/^(?:\s+)/i,/^(?:([0-9]+\.[0-9]+))/i,/^(?:([0-9]+))/i,/^(?:(("[^"]*")))/i,/^(?:('(\\.|.)'))/i,/^(?:\*)/i,/^(?:\/)/i,/^(?:;)/i,/^(?:-)/i,/^(?:\+)/i,/^(?:\*)/i,/^(?:\^)/i,/^(?:%)/i,/^(?:<)/i,/^(?:>)/i,/^(?:<=)/i,/^(?:>=)/i,/^(?:==)/i,/^(?:!=)/i,/^(?:\|\|)/i,/^(?:&&)/i,/^(?:!)/i,/^(?:=)/i,/^(?:\()/i,/^(?:\))/i,/^(?:\[)/i,/^(?:\])/i,/^(?:\{)/i,/^(?:\})/i,/^(?:int\b)/i,/^(?:double\b)/i,/^(?:string\b)/i,/^(?:boolean\b)/i,/^(?:char\b)/i,/^(?:true\b)/i,/^(?:false\b)/i,/^(?:println\b)/i,/^(?:print\b)/i,/^(?:if\b)/i,/^(?:else\b)/i,/^(?:break\b)/i,/^(?:continue\b)/i,/^(?:while\b)/i,/^(?:(([a-zA-Z_])[a-zA-Z0-9_]*))/i,/^(?:$)/i],
+rules: [/^(?:\s+)/i,/^(?:([0-9]+\.[0-9]+))/i,/^(?:([0-9]+))/i,/^(?:(("[^"]*")))/i,/^(?:('(\\.|.)'))/i,/^(?:\*)/i,/^(?:\/)/i,/^(?:;)/i,/^(?:-)/i,/^(?:\+)/i,/^(?:\*)/i,/^(?:\^)/i,/^(?:%)/i,/^(?:<=)/i,/^(?:>=)/i,/^(?:<)/i,/^(?:>)/i,/^(?:==)/i,/^(?:!=)/i,/^(?:\|\|)/i,/^(?:&&)/i,/^(?:!)/i,/^(?:=)/i,/^(?:\()/i,/^(?:\))/i,/^(?:\[)/i,/^(?:\])/i,/^(?:\{)/i,/^(?:\})/i,/^(?:int\b)/i,/^(?:double\b)/i,/^(?:string\b)/i,/^(?:boolean\b)/i,/^(?:char\b)/i,/^(?:true\b)/i,/^(?:false\b)/i,/^(?:println\b)/i,/^(?:print\b)/i,/^(?:if\b)/i,/^(?:else\b)/i,/^(?:break\b)/i,/^(?:continue\b)/i,/^(?:while\b)/i,/^(?:(([a-zA-Z_])[a-zA-Z0-9_]*))/i,/^(?:$)/i],
 conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44],"inclusive":true}}
 });
 return lexer;

@@ -1,25 +1,15 @@
 import {Simbol} from "../Simbols/Simbol";
-/**
- * @class En esta clase es donde vamos a guardar y obtener las variables y funciones
- */
+
 export class Table{
     Previous: Table;
     Variables: Map<String, Simbol>;
-
-    /**
-     * @constructor Crea una nueva tabla
-     * @param Previous Tabla anterior para manejar los ambitos
-     */
+    ambito: string;
     constructor(Previous: Table){
         this.Previous = Previous;
         this.Variables = new Map<String, Simbol>();
+        this.ambito = "GLOBAL";
     }
 
-    /**
-     * 
-     * @method setVariable Almacena una variable, si ya existe arroja error
-     * @param simbol Simbolo que contiene la informacion de la variable a almacenar
-     */
     setVariable(simbol: Simbol){
         let env: Table;
         for(env = this; env != null; env = env.Previous){
@@ -33,12 +23,6 @@ export class Table{
         return null;
     }
 
-
-    /**
-     * 
-     * @method getVariable Obtiene una variable dentro de la tabla de simbolos
-     * @param identifier Nombre de la variable a obtener
-     */
     getVariable(identifier: String): Simbol{
         let env: Table;
         for(env = this; env != null; env = env.Previous){
@@ -49,6 +33,16 @@ export class Table{
             }
         }
         return null;
+    }
+
+    getTableArray(){
+        let temp : Array<any>;
+        temp = [];
+        let env: Table;
+        for(env = this; env != null; env = env.Previous){
+            temp.concat(Array.from(env.Variables.keys()), this.ambito);
+        }
+        return temp;
     }
 
 }

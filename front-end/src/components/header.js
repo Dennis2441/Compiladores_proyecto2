@@ -18,18 +18,8 @@ export function Header(){
                         <li className="nav-item">
                             <Link className="nav-link" to="/editor">Editor</Link>
                         </li>
-                        <li className="nav-item dropdown">
-                            <span className="nav-link dropdown-toggle" 
-                                href="#" id="navbarDropdown" 
-                                role="button" 
-                                data-toggle="dropdown" 
-                                aria-haspopup="true" 
-                                aria-expanded="false"> Reportes</span>
-                            <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <Link className="dropdown-item" to="/errores">Errores</Link>
-                                <Link className="dropdown-item" to="/ast">AST</Link>
-                                <Link className="dropdown-item" to="/symtable">Tabla de Símbolos</Link>
-                            </div>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/reportes">Reportes</Link>
                         </li>
                     </ul>
                 </div>
