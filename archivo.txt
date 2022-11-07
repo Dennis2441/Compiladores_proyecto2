@@ -9,11 +9,3 @@ while(i < 10){
     println("-");
     i = i + 1;
 }
-
-
-
-int i = 0;
-while( i < 10 ) {
-    println("hola");
-    i = i +1;
-}

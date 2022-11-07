@@ -9,6 +9,7 @@
     const {Print} = require('../Instrucciones/Print');
     const {If} = require('../Instrucciones/If');
     const {While} = require('../Instrucciones/While');
+    const {DoWhile} = require('../Instrucciones/DoWhile');
     const {Declaracion} = require('../Instrucciones/Declaracion');
     const {Asignacion} = require('../Instrucciones/Asignacion');
     const {Excepcion} = require('../utils/Exception');
@@ -71,6 +72,7 @@ char \'(\\.|.)\'
 "break"               return 'break'
 "continue"            return 'continue'
 "while"               return 'while'
+"do"                  return 'do'
 {identifier}          return 'identifier'
 <<EOF>>	          return 'EOF'
 
@@ -101,6 +103,7 @@ INSTRUCCIONES : INSTRUCCIONES INSTRUCCION { $$ = $1; $$.push($2); }
 INSTRUCCION : PRINT {$$ = $1;}
             | IF {$$ = $1;}
             | WHILE {$$ = $1;}
+            | DOWHILE {$$ = $1;}
             | DECLARACION {$$ = $1;}
             | ASIGNACION {$$ = $1;}
             | 'continue' ';' {$$ = new Continue(@1.first_line, @1.first_column)}
@@ -134,6 +137,9 @@ IF : 'if' CONDICION BLOQUE_INSTRUCCIONES {$$ = new If($2, $3, [], @1.first_line,
 
 WHILE : 'while' CONDICION BLOQUE_INSTRUCCIONES {$$ = new While($2, $3, @1.first_line, @1.first_column);}
       ;
+
+DOWHILE : 'do' BLOQUE_INSTRUCCIONES 'while' CONDICION  ';' { $$ = new DoWhile($4, $2, @1.first_line, @1.first_column); }
+        ;
 
 BLOQUE_INSTRUCCIONES : '{' INSTRUCCIONES '}' {$$ = $2;}
                      | '{' '}' {$$ = [];}

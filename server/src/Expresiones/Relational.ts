@@ -21,7 +21,6 @@ export class Relational extends Node {
     }
 
     execute(table: Table, tree: Tree) {
-        console.log(this);
         const LeftResult = this.leftOperator.execute(table, tree);
         console.log(LeftResult);
         if (LeftResult instanceof Exception) {
