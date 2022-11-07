@@ -27,7 +27,6 @@ export function Reports(){
     }, []);
 
     console.log(errors);
-    console.log(syms);
 
     return(
         <div className="container">
@@ -43,25 +42,31 @@ export function Reports(){
                 <hr className="text-light"></hr>
             </div>
 
-            <div className="container">
+            <div className="container text-light">
                 {
                     tabIndex === 1 && 
-                    <table>
-                        <thead className="table">
+                    <table className="table table-hover table-dark">
+                        <thead>
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">First</th>
-                                <th scope="col">Last</th>
-                                <th scope="col">Handle</th>
+                                <th scope="col">Tipo</th>
+                                <th scope="col">Descripción</th>
+                                <th scope="col">Fila</th>
+                                <th scope="col">Columna</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                            </tr>
+                            {
+                                errors.map((obj, index) => {
+                                    return (
+                                        <tr key={index}>
+                                            <th>{obj.type}</th>
+                                            <td>{obj.description}</td>
+                                            <td>{obj.line}</td>
+                                            <td>{obj.column}</td>
+                                        </tr>
+                                    )
+                                })
+                            }
                         </tbody>
                     </table>
                 }

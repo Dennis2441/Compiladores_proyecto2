@@ -204,8 +204,8 @@ export class Relational extends Node {
                     return LeftResult != RightResult;
             
             //CHAR != STRING || STRING != CHAR
-            } else if ((this.leftOperator.type.type === types.CHAR && this.rightOperator.type.type === types.STRING) ||
-                       (this.rightOperator.type.type === types.CHAR && this.leftOperator.type.type === types.STRING)) {
+            } else if ((this.leftOperator.type.type === types.CHAR || this.leftOperator.type.type === types.STRING) &&
+                      (this.rightOperator.type.type === types.CHAR || this.rightOperator.type.type === types.STRING)) {
                 this.type = new Type(types.BOOLEAN);
                 return LeftResult != RightResult;
             } else {
@@ -232,13 +232,13 @@ export class Relational extends Node {
                     return LeftResult == RightResult;
             
             //CHAR != STRING || STRING != CHAR
-            } else if ((this.leftOperator.type.type === types.CHAR && this.rightOperator.type.type === types.STRING) ||
-                       (this.rightOperator.type.type === types.CHAR && this.leftOperator.type.type === types.STRING)) {
+            } else if ((this.leftOperator.type.type === types.CHAR || this.leftOperator.type.type === types.STRING) &&
+                       (this.rightOperator.type.type === types.CHAR || this.rightOperator.type.type === types.STRING)) {
                 this.type = new Type(types.BOOLEAN);
                 return LeftResult == RightResult;
             } else {
                 const error = new Exception('Semantico',
-                    `Error de tipos en DIFERENTE QUE se esta tratando de operar ${this.leftOperator.type.type} y ${this.rightOperator.type.type}`,
+                    `Error de tipos en IGUAL QUE se esta tratando de operar ${this.leftOperator.type.type} y ${this.rightOperator.type.type}`,
                     this.line, this.column);
                 tree.excepciones.push(error);
                 tree.console.push(error.toString());

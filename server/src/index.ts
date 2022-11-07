@@ -55,11 +55,11 @@ app.post('/analizar', (req, res) => {
 });
 
 app.get('/errores', (req, res) => {
-  console.log(errores);
   res.json(errores);
 });
 
 app.get('/simbolos', (req, res) => {
+  console.log(simbolos);
   res.json(simbolos);
 });
 
