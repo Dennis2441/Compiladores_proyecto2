@@ -4,22 +4,11 @@ import { Tree } from "../Simbols/Tree";
 import { Exception } from "../utils/Exception";
 import { types, Type } from "../utils/Type";
 
-/**
- * @class Genera un nuevo nodo expresion para realizar operaciones aritmeticas
- */
 export class Arithmetic extends Node {
     leftOperator: Node;
     rightOperator: Node;
     Operator: String;
 
-    /**
-     * @constructor Devuelve el nodo expresion para ser utilizado con otras operaciones
-     * @param leftOperator Nodo expresion izquierdo
-     * @param rightOperator Nodo expresion derecho
-     * @param Operator Operador
-     * @param line linea de la operacion
-     * @param column columna de la operacion
-     */
     constructor(leftOperator: Node, rightOperator: Node, Operator: String, line: Number, column: Number) {
         // Envio null porque aun no se el tipo de la operación
         super(null, line, column);
@@ -58,26 +47,26 @@ export class Arithmetic extends Node {
                     return String(LeftResult) + String(RightResult);
                 
                 //INT + BOOL || BOOL + INT
-                } else if (this.leftOperator.type.type === types.INT && this.rightOperator.type.type === types.BOOLEAN ||
-                           this.leftOperator.type.type === types.BOOLEAN && this.rightOperator.type.type === types.INT) {
+                } else if ((this.leftOperator.type.type === types.INT || this.leftOperator.type.type === types.BOOLEAN) &&
+                           (this.rightOperator.type.type === types.INT || this.rightOperator.type.type === types.BOOLEAN)){
                     this.type = new Type(types.INT);
                     return Number(LeftResult) + Number(RightResult);
                 
                 //DOUBLE + BOOL || BOOL + DOUBLE
-                } else if (this.leftOperator.type.type === types.DOUBLE && this.rightOperator.type.type === types.BOOLEAN ||
-                            this.leftOperator.type.type === types.BOOLEAN && this.rightOperator.type.type === types.DOUBLE) {
+                } else if ((this.leftOperator.type.type === types.DOUBLE || this.leftOperator.type.type === types.BOOLEAN) &&
+                           (this.rightOperator.type.type === types.DOUBLE || this.rightOperator.type.type === types.BOOLEAN)) {
                     this.type = new Type(types.DOUBLE);
                     return Number(LeftResult) + Number(RightResult);            
                 
                 //INT + DOUBLE || DOUBLE + INT
-                }else if (this.leftOperator.type.type === types.INT && this.rightOperator.type.type === types.DOUBLE ||
-                          this.leftOperator.type.type === types.DOUBLE && this.rightOperator.type.type === types.INT) {
+                }else if ((this.leftOperator.type.type === types.INT || this.leftOperator.type.type === types.DOUBLE) &&
+                          (this.rightOperator.type.type === types.INT || this.rightOperator.type.type === types.DOUBLE)) {
                     this.type = new Type(types.DOUBLE);
                     return LeftResult + RightResult;
                 
                 //INT + CHAR || CHAR + INT
-                }else if (this.leftOperator.type.type === types.INT && this.rightOperator.type.type === types.CHAR ||
-                          this.leftOperator.type.type === types.CHAR && this.rightOperator.type.type === types.INT) {
+                }else if ((this.leftOperator.type.type === types.INT || this.leftOperator.type.type === types.CHAR) &&
+                          (this.rightOperator.type.type === types.INT || this.rightOperator.type.type === types.CHAR)) {
                     this.type = new Type(types.INT);
                     if(typeof LeftResult === 'string'){
                         return LeftResult.charCodeAt(0) + Number(RightResult);
@@ -86,8 +75,8 @@ export class Arithmetic extends Node {
                     }
                 
                 //DOUBLE + CHAR || CHAR + DOUBLE
-                }else if (this.leftOperator.type.type === types.DOUBLE && this.rightOperator.type.type === types.CHAR ||
-                          this.leftOperator.type.type === types.CHAR && this.rightOperator.type.type === types.DOUBLE) {
+                }else if ((this.leftOperator.type.type === types.DOUBLE || this.leftOperator.type.type === types.CHAR) &&
+                          (this.rightOperator.type.type === types.DOUBLE || this.rightOperator.type.type === types.CHAR)) {
                     this.type = new Type(types.DOUBLE);
                     if(typeof LeftResult === 'string'){
                         return LeftResult.charCodeAt(0) + Number(RightResult);
@@ -127,26 +116,26 @@ export class Arithmetic extends Node {
                     return LeftResult.charCodeAt(0) + RightResult.charCodeAt(0);
 
                 //INT - DOUBLE || DOUBLE - INT
-                }else if (this.leftOperator.type.type === types.INT && this.rightOperator.type.type === types.DOUBLE ||
-                          this.leftOperator.type.type === types.DOUBLE && this.rightOperator.type.type === types.INT) {
+                }else if((this.leftOperator.type.type === types.INT || this.leftOperator.type.type === types.DOUBLE) &&
+                          (this.rightOperator.type.type === types.INT || this.rightOperator.type.type === types.DOUBLE)){
                     this.type = new Type(types.DOUBLE);
                     return LeftResult - RightResult;
 
                 //INT - BOOL || BOOL - INT
-                } else if (this.leftOperator.type.type === types.INT && this.rightOperator.type.type === types.BOOLEAN ||
-                           this.leftOperator.type.type === types.BOOLEAN && this.rightOperator.type.type === types.INT) {
+                } else if ((this.leftOperator.type.type === types.INT || this.leftOperator.type.type === types.BOOLEAN) &&
+                           (this.rightOperator.type.type === types.INT || this.rightOperator.type.type === types.BOOLEAN)) {
                     this.type = new Type(types.INT);
                     return Number(LeftResult) - Number(RightResult);
                 
                 //DOUBLE - BOOL || BOOL - DOUBLE
-                } else if (this.leftOperator.type.type === types.DOUBLE && this.rightOperator.type.type === types.BOOLEAN ||
-                            this.leftOperator.type.type === types.BOOLEAN && this.rightOperator.type.type === types.DOUBLE) {
+                } else if ((this.leftOperator.type.type === types.DOUBLE || this.leftOperator.type.type === types.BOOLEAN) &&
+                           (this.rightOperator.type.type === types.DOUBLE || this.rightOperator.type.type === types.BOOLEAN)) {
                     this.type = new Type(types.DOUBLE);
                     return Number(LeftResult) - Number(RightResult);
 
                  //INT - CHAR || CHAR - INT
-                }else if (this.leftOperator.type.type === types.INT && this.rightOperator.type.type === types.CHAR ||
-                    this.leftOperator.type.type === types.CHAR && this.rightOperator.type.type === types.INT) {
+                }else if ((this.leftOperator.type.type === types.INT || this.leftOperator.type.type === types.CHAR) &&
+                          (this.rightOperator.type.type === types.INT || this.rightOperator.type.type === types.CHAR)) {
                     this.type = new Type(types.INT);
                     if(typeof LeftResult === 'string'){
                         return LeftResult.charCodeAt(0) - Number(RightResult);
@@ -155,8 +144,8 @@ export class Arithmetic extends Node {
                     }
                 
                 //DOUBLE - CHAR || CHAR - DOUBLE
-                }else if (this.leftOperator.type.type === types.DOUBLE && this.rightOperator.type.type === types.CHAR ||
-                            this.leftOperator.type.type === types.CHAR && this.rightOperator.type.type === types.DOUBLE) {
+                }else if ((this.leftOperator.type.type === types.DOUBLE || this.leftOperator.type.type === types.CHAR) &&
+                          (this.rightOperator.type.type === types.DOUBLE || this.rightOperator.type.type === types.CHAR)) {
                     this.type = new Type(types.DOUBLE);
                     if(typeof LeftResult === 'string'){
                         return LeftResult.charCodeAt(0) - Number(RightResult);
@@ -192,20 +181,20 @@ export class Arithmetic extends Node {
                     return LeftResult.charCodeAt(0) * RightResult.charCodeAt(0);
 
                 //INT * DOUBLE || DOUBLE * INT
-                }else if (this.leftOperator.type.type === types.INT && this.rightOperator.type.type === types.DOUBLE ||
-                          this.leftOperator.type.type === types.DOUBLE && this.rightOperator.type.type === types.INT) {
+                }else if ((this.leftOperator.type.type === types.INT || this.leftOperator.type.type === types.DOUBLE) &&
+                          (this.rightOperator.type.type === types.INT || this.rightOperator.type.type === types.DOUBLE)) {
                     this.type = new Type(types.DOUBLE);
                     return LeftResult * RightResult;
 
                 //INT * BOOL || BOOL * INT
-                } else if (this.leftOperator.type.type === types.INT && this.rightOperator.type.type === types.BOOLEAN ||
-                           this.leftOperator.type.type === types.BOOLEAN && this.rightOperator.type.type === types.INT) {
+                } else if ((this.leftOperator.type.type === types.INT || this.leftOperator.type.type === types.BOOLEAN) &&
+                           (this.rightOperator.type.type === types.INT || this.rightOperator.type.type === types.BOOLEAN)) {
                     this.type = new Type(types.INT);
                     return Number(LeftResult) * Number(RightResult);
                 
                 //DOUBLE * BOOL || BOOL * DOUBLE
-                } else if (this.leftOperator.type.type === types.DOUBLE && this.rightOperator.type.type === types.BOOLEAN ||
-                            this.leftOperator.type.type === types.BOOLEAN && this.rightOperator.type.type === types.DOUBLE) {
+                } else if ((this.leftOperator.type.type === types.DOUBLE || this.leftOperator.type.type === types.BOOLEAN) &&
+                           (this.rightOperator.type.type === types.DOUBLE || this.rightOperator.type.type === types.BOOLEAN)) {
                     this.type = new Type(types.DOUBLE);
                     return Number(LeftResult) * Number(RightResult);
 
@@ -220,8 +209,8 @@ export class Arithmetic extends Node {
                     }
                 
                 //DOUBLE * CHAR || CHAR * DOUBLE
-                }else if (this.leftOperator.type.type === types.DOUBLE && this.rightOperator.type.type === types.CHAR ||
-                            this.leftOperator.type.type === types.CHAR && this.rightOperator.type.type === types.DOUBLE) {
+                }else if ((this.leftOperator.type.type === types.INT || this.leftOperator.type.type === types.CHAR) &&
+                          (this.rightOperator.type.type === types.INT || this.rightOperator.type.type === types.CHAR)) {
                     this.type = new Type(types.DOUBLE);
                     if(typeof LeftResult === 'string'){
                         return LeftResult.charCodeAt(0) - Number(RightResult);
@@ -231,7 +220,7 @@ export class Arithmetic extends Node {
                 } else {
                     console.log(this.leftOperator)
                     const error = new Exception('Semantico',
-                        `Error de tipos en la resta se esta tratando de operar ${this.leftOperator.type.type} y ${this.rightOperator.type.type}`,
+                        `Error de tipos en la multiplicación se esta tratando de operar ${this.leftOperator.type.type} y ${this.rightOperator.type.type}`,
                         this.line, this.column);
                     tree.excepciones.push(error);
                     tree.console.push(error.toString());
@@ -281,8 +270,8 @@ export class Arithmetic extends Node {
                     return LeftResult.charCodeAt(0) / RightResult.charCodeAt(0);
 
                 //INT / DOUBLE || DOUBLE / INT
-                }else if (this.leftOperator.type.type === types.INT && this.rightOperator.type.type === types.DOUBLE ||
-                          this.leftOperator.type.type === types.DOUBLE && this.rightOperator.type.type === types.INT) {
+                }else if ((this.leftOperator.type.type === types.INT || this.leftOperator.type.type === types.DOUBLE) &&
+                          (this.rightOperator.type.type === types.INT || this.rightOperator.type.type === types.DOUBLE)) {
                     this.type = new Type(types.DOUBLE);
                     if (RightResult === 0) {
                         const error = new Exception('Semantico',
@@ -295,8 +284,8 @@ export class Arithmetic extends Node {
                     return LeftResult * RightResult;
 
                 //INT / BOOL || BOOL / INT
-                } else if (this.leftOperator.type.type === types.INT && this.rightOperator.type.type === types.BOOLEAN ||
-                           this.leftOperator.type.type === types.BOOLEAN && this.rightOperator.type.type === types.INT) {
+                } else if ((this.leftOperator.type.type === types.INT || this.leftOperator.type.type === types.BOOLEAN) &&
+                           (this.rightOperator.type.type === types.INT || this.rightOperator.type.type === types.BOOLEAN)) {
                     this.type = new Type(types.DOUBLE);
                     if (Number(RightResult) === 0) {
                         const error = new Exception('Semantico',
@@ -309,8 +298,8 @@ export class Arithmetic extends Node {
                     return Number(LeftResult) / Number(RightResult);
                 
                 //DOUBLE / BOOL || BOOL / DOUBLE
-                } else if (this.leftOperator.type.type === types.DOUBLE && this.rightOperator.type.type === types.BOOLEAN ||
-                            this.leftOperator.type.type === types.BOOLEAN && this.rightOperator.type.type === types.DOUBLE) {
+                } else if ((this.leftOperator.type.type === types.DOUBLE || this.leftOperator.type.type === types.BOOLEAN) &&
+                           (this.rightOperator.type.type === types.DOUBLE || this.rightOperator.type.type === types.BOOLEAN)) {
                     this.type = new Type(types.DOUBLE);
                     if (Number(RightResult) === 0) {
                         const error = new Exception('Semantico',
@@ -323,8 +312,8 @@ export class Arithmetic extends Node {
                     return Number(LeftResult) / Number(RightResult);
 
                  //INT / CHAR || CHAR / INT
-                }else if (this.leftOperator.type.type === types.INT && this.rightOperator.type.type === types.CHAR ||
-                    this.leftOperator.type.type === types.CHAR && this.rightOperator.type.type === types.INT) {
+                }else if ((this.leftOperator.type.type === types.INT || this.leftOperator.type.type === types.CHAR) &&
+                          (this.rightOperator.type.type === types.INT || this.rightOperator.type.type === types.CHAR)) {
                     this.type = new Type(types.DOUBLE);
                     if(typeof LeftResult === 'string'){
                         if (RightResult === 0) {
@@ -349,8 +338,8 @@ export class Arithmetic extends Node {
                     }
                 
                 //DOUBLE / CHAR || CHAR / DOUBLE
-                }else if (this.leftOperator.type.type === types.DOUBLE && this.rightOperator.type.type === types.CHAR ||
-                            this.leftOperator.type.type === types.CHAR && this.rightOperator.type.type === types.DOUBLE) {
+                }else if ((this.leftOperator.type.type === types.DOUBLE || this.leftOperator.type.type === types.CHAR) &&
+                          (this.rightOperator.type.type === types.DOUBLE || this.rightOperator.type.type === types.CHAR)) {
                     this.type = new Type(types.DOUBLE);
                     if(typeof LeftResult === 'string'){
                         if (RightResult === 0) {
@@ -376,7 +365,7 @@ export class Arithmetic extends Node {
                 } else {
                     console.log(this.leftOperator)
                     const error = new Exception('Semantico',
-                        `Error de tipos en la resta se esta tratando de operar ${this.leftOperator.type.type} y ${this.rightOperator.type.type}`,
+                        `Error de tipos en la división se esta tratando de operar ${this.leftOperator.type.type} y ${this.rightOperator.type.type}`,
                         this.line, this.column);
                     tree.excepciones.push(error);
                     tree.console.push(error.toString());
@@ -397,26 +386,26 @@ export class Arithmetic extends Node {
                     return Math.pow(LeftResult, RightResult);
 
                 //INT ^ DOUBLE || DOUBLE ^ INT
-                }else if (this.leftOperator.type.type === types.INT && this.rightOperator.type.type === types.DOUBLE ||
-                          this.leftOperator.type.type === types.DOUBLE && this.rightOperator.type.type === types.INT) {
+                }else if ((this.leftOperator.type.type === types.INT || this.leftOperator.type.type === types.DOUBLE) &&
+                          (this.rightOperator.type.type === types.INT || this.rightOperator.type.type === types.DOUBLE)) {
                     this.type = new Type(types.DOUBLE);
                     return Math.pow(LeftResult, RightResult);
 
                 //INT ^ BOOL || BOOL ^ INT
-                } else if (this.leftOperator.type.type === types.INT && this.rightOperator.type.type === types.BOOLEAN ||
-                            this.leftOperator.type.type === types.BOOLEAN && this.rightOperator.type.type === types.INT) {
+                } else if ((this.leftOperator.type.type === types.INT || this.leftOperator.type.type === types.BOOLEAN) &&
+                           (this.rightOperator.type.type === types.INT || this.rightOperator.type.type === types.BOOLEAN)) {
                     this.type = new Type(types.INT);
                     return Math.pow(Number(LeftResult), Number(RightResult));
                 
                 //DOUBLE ^ BOOL || BOOL ^ DOUBLE
-                } else if (this.leftOperator.type.type === types.DOUBLE && this.rightOperator.type.type === types.BOOLEAN ||
-                            this.leftOperator.type.type === types.BOOLEAN && this.rightOperator.type.type === types.DOUBLE) {
+                } else if ((this.leftOperator.type.type === types.DOUBLE || this.leftOperator.type.type === types.BOOLEAN) &&
+                           (this.rightOperator.type.type === types.DOUBLE || this.rightOperator.type.type === types.BOOLEAN)) {
                     this.type = new Type(types.DOUBLE);
                     return Math.pow(Number(LeftResult), Number(RightResult));
                 } else {
                     console.log(this.leftOperator)
                     const error = new Exception('Semantico',
-                        `Error de tipos en la resta se esta tratando de operar ${this.leftOperator.type.type} y ${this.rightOperator.type.type}`,
+                        `Error de tipos en la potencia se esta tratando de operar ${this.leftOperator.type.type} y ${this.rightOperator.type.type}`,
                         this.line, this.column);
                     tree.excepciones.push(error);
                     tree.console.push(error.toString());
@@ -427,26 +416,24 @@ export class Arithmetic extends Node {
         //                                                 MODULO
         //------------------------------------------------------------------------------------------------------------------------
             } else if (this.Operator === '%') {
-                //INT % INT
-                if (this.leftOperator.type.type === types.INT && this.rightOperator.type.type === types.INT) {
-                    this.type = new Type(types.DOUBLE);
-                    return LeftResult % RightResult;
-                
-                //DOUBLE % DOBLE
-                } else if (this.leftOperator.type.type === types.DOUBLE && this.rightOperator.type.type === types.DOUBLE) {
-                    this.type = new Type(types.DOUBLE);
-                    return LeftResult % RightResult;
 
                 //INT % DOUBLE || DOUBLE % INT
-                }else if (this.leftOperator.type.type === types.INT && this.rightOperator.type.type === types.DOUBLE ||
-                          this.leftOperator.type.type === types.DOUBLE && this.rightOperator.type.type === types.INT) {
+                if ((this.leftOperator.type.type === types.INT || this.leftOperator.type.type === types.DOUBLE) &&
+                          (this.rightOperator.type.type === types.INT || this.rightOperator.type.type === types.DOUBLE)) {
                     this.type = new Type(types.DOUBLE);
-                    return LeftResult % RightResult;
-
+                    if (Number(RightResult) === 0) {
+                        const error = new Exception('Semantico',
+                            `Error aritmetico, El módulo con cero no esta permitida`,
+                            this.line, this.column);
+                        tree.excepciones.push(error);
+                        tree.console.push(error.toString());
+                        return error;
+                    }else{
+                        return LeftResult % RightResult;
+                    }
                 } else {
-                    console.log(this.leftOperator)
                     const error = new Exception('Semantico',
-                        `Error de tipos en la resta se esta tratando de operar ${this.leftOperator.type.type} y ${this.rightOperator.type.type}`,
+                        `Error de tipos en el módulo se esta tratando de operar ${this.leftOperator.type.type} y ${this.rightOperator.type.type}`,
                         this.line, this.column);
                     tree.excepciones.push(error);
                     tree.console.push(error.toString());

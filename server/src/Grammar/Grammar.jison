@@ -103,16 +103,16 @@ INSTRUCCION : PRINT {$$ = $1;}
             | WHILE {$$ = $1;}
             | DECLARACION {$$ = $1;}
             | ASIGNACION {$$ = $1;}
-            | 'continue' ';' {$$ = new Continue(_$.first_line, _$.first_column)}
-            | 'break' ';' {$$ = new Break(_$.first_line, _$.first_column)}
+            | 'continue' ';' {$$ = new Continue(@1.first_line, @1.first_column)}
+            | 'break' ';' {$$ = new Break(@1.first_line, @1.first_column)}
             ;
 
 
-DECLARACION : TIPO identifier '=' EXPRESION ';' {$$ = new Declaracion($1, $2, $4, _$.first_line, _$.first_column);}
-            | TIPO identifier ';' {$$ = new Declaracion($1, $2, null, _$.first_line, _$.first_column);}
+DECLARACION : TIPO identifier '=' EXPRESION ';' {$$ = new Declaracion($1, $2, $4, @2.first_line, @2.first_column);}
+            | TIPO identifier ';' {$$ = new Declaracion($1, $2, null, @2.first_line, @2.first_column);}
             ;
 
-ASIGNACION : identifier '=' EXPRESION ';' {$$ = new Asignacion($1, $3, _$.first_line, _$.first_column);}
+ASIGNACION : identifier '=' EXPRESION ';' {$$ = new Asignacion($1, $3, @1.first_line, @1.first_column);}
            ;
 
 TIPO : 'int' {$$ = new Type(types.INT);}
@@ -122,17 +122,17 @@ TIPO : 'int' {$$ = new Type(types.INT);}
      | 'char' {$$ = new Type(types.CHAR);}
      ;
 
-PRINT : 'print' '(' EXPRESION ')' ';' { $$ = new Print($3, _$.first_line, _$.first_column);}
-      | 'println' '(' EXPRESION ')' ';' { $$ = new Print($3, _$.first_line, _$.first_column, true);}
+PRINT : 'print' '(' EXPRESION ')' ';' { $$ = new Print($3, @1.first_line, @1.first_column);}
+      | 'println' '(' EXPRESION ')' ';' { $$ = new Print($3, @1.first_line, @1.first_column, true);}
       ;
 
-IF : 'if' CONDICION BLOQUE_INSTRUCCIONES {$$ = new If($2, $3, [], _$.first_line, _$.first_column);}
-   | 'if' CONDICION BLOQUE_INSTRUCCIONES 'else' BLOQUE_INSTRUCCIONES {$$ = new If($2, $3, $5, _$.first_line, _$.first_column);}
-   | 'if' CONDICION BLOQUE_INSTRUCCIONES 'else' IF {$$ = new If($2, $3, [$5], _$.first_line, _$.first_column);}
+IF : 'if' CONDICION BLOQUE_INSTRUCCIONES {$$ = new If($2, $3, [], @1.first_line, @1.first_column);}
+   | 'if' CONDICION BLOQUE_INSTRUCCIONES 'else' BLOQUE_INSTRUCCIONES {$$ = new If($2, $3, $5, @1.first_line, @1.first_column);}
+   | 'if' CONDICION BLOQUE_INSTRUCCIONES 'else' IF {$$ = new If($2, $3, [$5], @1.first_line, @1.first_column);}
    ;
 
 
-WHILE : 'while' CONDICION BLOQUE_INSTRUCCIONES {$$ = new While($2, $3, _$.first_line, _$.first_column);}
+WHILE : 'while' CONDICION BLOQUE_INSTRUCCIONES {$$ = new While($2, $3, @1.first_line, @1.first_column);}
       ;
 
 BLOQUE_INSTRUCCIONES : '{' INSTRUCCIONES '}' {$$ = $2;}
@@ -143,28 +143,28 @@ BLOQUE_INSTRUCCIONES : '{' INSTRUCCIONES '}' {$$ = $2;}
 CONDICION : '(' EXPRESION ')' {$$ = $2;}
           ;
       
-EXPRESION : '-' EXPRESION %prec UMENOS	    { $$ = new Arithmetic($2, null, '-', _$.first_line, _$.first_column); }
-          | '!' EXPRESION	                { $$ = new Arithmetic($2, null, '!', _$.first_line, _$.first_column); }
-          | EXPRESION '^' EXPRESION		    { $$ = new Arithmetic($1, $3, '^', _$.first_line, _$.first_column); }
-          | EXPRESION '%' EXPRESION		    { $$ = new Arithmetic($1, $3, '%', _$.first_line, _$.first_column); }
-          | EXPRESION '+' EXPRESION		    { $$ = new Arithmetic($1, $3, '+', _$.first_line, _$.first_column); }
-          | EXPRESION '-' EXPRESION		    { $$ = new Arithmetic($1, $3, '-', _$.first_line, _$.first_column); }
-          | EXPRESION '*' EXPRESION		    { $$ = new Arithmetic($1, $3, '*', _$.first_line, _$.first_column); }
-          | EXPRESION '/' EXPRESION	          { $$ = new Arithmetic($1, $3, '/', _$.first_line, _$.first_column); }
-          | EXPRESION '<' EXPRESION		    { $$ = new Relational($1, $3, '<', _$.first_line, _$.first_column); }
-          | EXPRESION '>' EXPRESION		    { $$ = new Relational($1, $3, '>', _$.first_line, _$.first_column); }
-          | EXPRESION '>=' EXPRESION	    { $$ = new Relational($1, $3, '>=', _$.first_line, _$.first_column); }
-          | EXPRESION '<=' EXPRESION	    { $$ = new Relational($1, $3, '<=', _$.first_line, _$.first_column); }
-          | EXPRESION '==' EXPRESION	    { $$ = new Relational($1, $3, '==', _$.first_line, _$.first_column); }
-          | EXPRESION '!=' EXPRESION	    { $$ = new Relational($1, $3, '!=', _$.first_line, _$.first_column); }
-          | EXPRESION '||' EXPRESION	    { $$ = new Logic($1, $3, '&&', _$.first_line, _$.first_column); }
-          | EXPRESION '&&' EXPRESION	    { $$ = new Logic($1, $3, '||', _$.first_line, _$.first_column); }
-          | 'INT_LITERAL'			    { $$ = new Primitive(new Type(types.INT), Number($1), _$.first_line, _$.first_column); }
-          | 'DOUBLE_LITERAL'			    { $$ = new Primitive(new Type(types.DOUBLE), Number($1), _$.first_line, _$.first_column); }
-          | 'STRING_LITERAL'			    { $$ = new Primitive(new Type(types.STRING), $1.slice(1, -1), _$.first_line, _$.first_column); }
-          | 'CHAR_LITERAL'			    { $$ = new Primitive(new Type(types.CHAR), $1.replace(/\'/g,""), _$.first_line, _$.first_column); }
-          | 'true'				    { $$ = new Primitive(new Type(types.BOOLEAN), true, _$.first_line, _$.first_column); }
-          | 'false'				    { $$ = new Primitive(new Type(types.BOOLEAN), false, _$.first_line, _$.first_column); }
-          | identifier			          { $$ = new Identificador($1, _$.first_line, _$.first_column); }
+EXPRESION : '-' EXPRESION %prec UMENOS	    { $$ = new Arithmetic($2, null, '-', @1.first_line, @1.first_column); }
+          | '!' EXPRESION	                { $$ = new Arithmetic($2, null, '!', @1.first_line, @1.first_column); }
+          | EXPRESION '^' EXPRESION		    { $$ = new Arithmetic($1, $3, '^', @2.first_line, @2.first_column); }
+          | EXPRESION '%' EXPRESION		    { $$ = new Arithmetic($1, $3, '%', @2.first_line, @2.first_column); }
+          | EXPRESION '+' EXPRESION		    { $$ = new Arithmetic($1, $3, '+', @2.first_line, @2.first_column); }
+          | EXPRESION '-' EXPRESION		    { $$ = new Arithmetic($1, $3, '-', @2.first_line, @2.first_column); }
+          | EXPRESION '*' EXPRESION		    { $$ = new Arithmetic($1, $3, '*', @2.first_line, @2.first_column); }
+          | EXPRESION '/' EXPRESION	          { $$ = new Arithmetic($1, $3, '/', @2.first_line, @2.first_column); }
+          | EXPRESION '<' EXPRESION		    { $$ = new Relational($1, $3, '<', @2.first_line, @2.first_column); }
+          | EXPRESION '>' EXPRESION		    { $$ = new Relational($1, $3, '>', @2.first_line, @2.first_column); }
+          | EXPRESION '>=' EXPRESION	    { $$ = new Relational($1, $3, '>=', @2.first_line, @2.first_column); }
+          | EXPRESION '<=' EXPRESION	    { $$ = new Relational($1, $3, '<=', @2.first_line, @2.first_column); }
+          | EXPRESION '==' EXPRESION	    { $$ = new Relational($1, $3, '==', @2.first_line, @2.first_column); }
+          | EXPRESION '!=' EXPRESION	    { $$ = new Relational($1, $3, '!=', @2.first_line, @2.first_column); }
+          | EXPRESION '||' EXPRESION	    { $$ = new Logic($1, $3, '&&', @2.first_line, @2.first_column); }
+          | EXPRESION '&&' EXPRESION	    { $$ = new Logic($1, $3, '||', @2.first_line, @2.first_column); }
+          | 'INT_LITERAL'			    { $$ = new Primitive(new Type(types.INT), Number($1), @1.first_line, @1.first_column); }
+          | 'DOUBLE_LITERAL'			    { $$ = new Primitive(new Type(types.DOUBLE), Number($1), @1.first_line, @1.first_column); }
+          | 'STRING_LITERAL'			    { $$ = new Primitive(new Type(types.STRING), $1.slice(1, -1), @1.first_line, @1.first_column); }
+          | 'CHAR_LITERAL'			    { $$ = new Primitive(new Type(types.CHAR), $1.replace(/\'/g,""), @1.first_line, @1.first_column); }
+          | 'true'				    { $$ = new Primitive(new Type(types.BOOLEAN), true, @1.first_line, @1.first_column); }
+          | 'false'				    { $$ = new Primitive(new Type(types.BOOLEAN), false, @1.first_line, @1.first_column); }
+          | identifier			          { $$ = new Identificador($1, @1.first_line, @1.first_column); }
           | '(' EXPRESION ')'		          { $$ = $2; }
           ;

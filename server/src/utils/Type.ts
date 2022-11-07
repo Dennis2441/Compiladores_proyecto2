@@ -1,25 +1,15 @@
 export enum types {
-    INT,
-    DOUBLE,
-    CHAR,
-    STRING,
-    BOOLEAN,
-    VOID
+    INT = "INT",
+    DOUBLE = "DOUBLE",
+    CHAR = "CHAR",
+    STRING = "STRING",
+    BOOLEAN = "BOOLEAN",
+    VOID = "VOID"
 }
 
-/**
- * 
- * @class Permite llevar el control de los tipos del lenguaje
- */
 export class Type{
     type : types;
 
-    /**
-     * 
-     * @constructor Crea un nuevo tipo con el tipo primitivo indicado en el enum
-     * @param type Tipo seleccionado para la variable o funcion
-     * 
-     */
     constructor(type: types){
         this.type = type;
     }

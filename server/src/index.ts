@@ -49,13 +49,9 @@ app.post('/analizar', (req, res) => {
   errores = tree.excepciones;
   simbolos = tabla.getTableArray();
 
-  let obj = {
-    consola: output,
-    errores: tree.excepciones
-  };
-  console.log(obj, tree.console);
+  console.log(output);
   res.setHeader('Content-Type', 'application/json');
-  res.json(obj);
+  res.json({consola: output});
 });
 
 app.get('/errores', (req, res) => {
